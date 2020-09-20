@@ -1,5 +1,5 @@
 //
-// Created by Azazel on 18.09.2020. not solved
+// Created by Azazel on 18.09.2020. solved
 //
 
 /*По заданной дате требуется определить, какое число будет послезавтра.
@@ -30,7 +30,7 @@ bool isLeap(int year) {
 
 int toDays(int d, int m, int y) {
     int days = 0;
-    for (int i = 1; i <= y; ++i) {
+    for (int i = 0; i < y; ++i) {
         if (isLeap(i)) {
             days += 366;
         } else {
@@ -42,7 +42,7 @@ int toDays(int d, int m, int y) {
         DAYS[1] = 29;
     }
 
-    for (int i = 0; i < m - 1; ++i) {
+    for (int i = 0; i < m-1; ++i) {
         days += DAYS[i];
     }
     days += d;
@@ -66,7 +66,7 @@ tuple<int, int, int> toDate(int days) {
     }
     int past = 0;
     for (int i = 0; i < 12; ++i) {
-        if (days <= past + DAYS[i]) {
+        if (days < past + DAYS[i]) {
             m = i + 1;
             d = days - past;
             break;
