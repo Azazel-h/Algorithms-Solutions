@@ -1,5 +1,5 @@
 //
-// Created by Azazel on 17.09.2020. not solved
+// Created by Azazel on 17.09.2020. solved
 //
 
 /* Будильник в сотовом телефоне можно настроить так, чтобы он звонил каждый день в одно и то же время, либо в указанное время в определенный день недели. Независимо можно настроить несколько будильников.
@@ -33,6 +33,10 @@
 
 */
 
+//
+// Created by Azazel on 20.09.2020.
+//
+
 #include <iostream>
 #include <tuple>
 using namespace std;
@@ -51,40 +55,47 @@ tuple<int, int, int> toDate(int minutes) {
 }
 
 int main() {
-    int cur_days, cur_hours, cur_minutes, n, space = 10081, answer = -1, new_min;
-    cin >> cur_days >> cur_hours >> cur_minutes >> n;
+    int cur_days, cur_hours, cur_min, n, space = 10081, space2 = 10081, answer = -1, answer2 = -1, new_minutes, next_week_min;
+    cin >> cur_days >> cur_hours >> cur_min >> n;
 
     int days, hours, minutes;
-    int c_min = toMinutes(cur_days, cur_hours, cur_minutes);
+    int current_minutes = toMinutes(cur_days, cur_hours, cur_min);
 
     for (int i = 0; i < n; ++i) {
         cin >> days >> hours >> minutes;
-        if (days != 0) {
-            new_min = toMinutes(days, hours, minutes);
-            if (c_min <= new_min) {
-                if (space > new_min - c_min) {
-                    space = new_min - c_min;
-                    answer = new_min;
-                }
+        new_minutes = toMinutes(days, hours, minutes);
+        if (new_minutes >= current_minutes) {
+            if (space > new_minutes - current_minutes) {
+                space = new_minutes - current_minutes;
+                answer = new_minutes;
+            }
+        } else if (new_minutes < current_minutes && days != 0) {
+            if (space2 > new_minutes - current_minutes) {
+                space2 = new_minutes - current_minutes;
+                answer2 = new_minutes;
             }
         } else if (days == 0) {
-            if (c_min <= toMinutes(cur_days, hours, minutes)) {
-                new_min = toMinutes(cur_days, hours, minutes);
-                if (space > new_min - c_min) {
-                    space = new_min - c_min;
-                    answer = new_min;
+            int i = 1;
+            while (i <= 7) {
+                new_minutes = toMinutes(i, hours, minutes);
+                if (new_minutes >= current_minutes) {
+                    if (space > new_minutes - current_minutes) {
+                        space = new_minutes - current_minutes;
+                        answer = new_minutes;
+                    }
+                } else {
+                    if (space2 >= new_minutes - current_minutes) {
+                        space2 = new_minutes - current_minutes;
+                        answer2 = new_minutes;
+                    }
                 }
-            } else if (c_min <= toMinutes(cur_days + 1, hours, minutes)) {
-                new_min = toMinutes(cur_days + 1, hours, minutes);
-                if (space > new_min - c_min) {
-                    space = new_min - c_min;
-                    if (cur_days + 1 > 7) answer = toMinutes(1, hours, minutes);
-                    else answer = new_min;
-                }
+                ++i;
             }
         }
-
     }
-    tuple<int,int,int> ans = toDate(answer);
+
+    tuple<int,int,int> ans;
+    if (answer != -1) ans = toDate(answer);
+    else ans = toDate(answer2);
     cout << get<0>(ans) << " " << get<1>(ans) << " " << get<2>(ans);
 }
