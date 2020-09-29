@@ -33,10 +33,6 @@
 
 */
 
-//
-// Created by Azazel on 20.09.2020.
-//
-
 #include <iostream>
 #include <tuple>
 using namespace std;
