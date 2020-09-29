@@ -22,11 +22,9 @@
 using namespace std;
 
 int main() {
-    int full, par, answ = 0;
+    int full, par;
     cin >> full >> par;
-    while (((full - 2 * answ - 3 * par) + 3 - 1) / 3 > 0) {
-        answ++;
-    }
-    cout << answ;
+    if (full != par) cout << ((full - 3 * par) + 2 - 1) / 2;
+    else cout << 0;
     return 0;
 }
