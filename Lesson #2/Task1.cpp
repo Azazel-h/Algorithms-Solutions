@@ -14,7 +14,6 @@
 ввод	вывод
  27       3
  7
-
 */
 
 #include <iostream>
